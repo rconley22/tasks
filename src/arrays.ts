@@ -19,7 +19,7 @@ export function bookEndList(numbers: number[]): number[] {
  * number has been tripled (multiplied by 3).
  */
 export function tripleNumbers(numbers: number[]): number[] {
-    const tripled = numbers.map((numbers: i): i => numbers * 3);
+    const tripled = numbers.map((number: number) => number * 3);
     return tripled;
 }
 
@@ -29,7 +29,7 @@ export function tripleNumbers(numbers: number[]): number[] {
  */
 export function stringsToIntegers(numbers: string[]): number[] {
     const new_nums = numbers.map((num: string): number =>
-        parseInt(num) ? Number(num) : Number((num = "0"))
+        parseInt(num) ? Number(num) : Number(num = "0")
     );
     return new_nums;
 }
