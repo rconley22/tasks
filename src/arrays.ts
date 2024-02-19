@@ -86,7 +86,7 @@ export function allRGB(colors: string[]): boolean {
         return true;
     }
     let thing = true;
-    colors.map((color: string): string =>
+    colors.map((color: string): boolean =>
         color === "red" || color === "blue" || color === "green"
             ? (thing = true)
             : (thing = false)
