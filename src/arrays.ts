@@ -29,7 +29,7 @@ export function tripleNumbers(numbers: number[]): number[] {
  */
 export function stringsToIntegers(numbers: string[]): number[] {
     const new_nums = numbers.map((num: string): number =>
-        parseInt(num) ? Number(num) : Number(num = "0")
+        parseInt(num) ? Number(num) : Number((num = "0"))
     );
     return new_nums;
 }
