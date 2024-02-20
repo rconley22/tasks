@@ -29,6 +29,7 @@ export function tripleNumbers(numbers: number[]): number[] {
  */
 export function stringsToIntegers(numbers: string[]): number[] {
     const new_nums = numbers.map((num: string): number =>
+        // eslint-disable-next-line no-extra-parens
         parseInt(num) ? Number(num) : Number((num = "0"))
     );
     return new_nums;
