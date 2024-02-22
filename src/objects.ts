@@ -89,6 +89,11 @@ export function toShortForm(question: Question): string {
  * Check the unit tests for more examples of what this looks like!
  */
 export function toMarkdown(question: Question): string {
+    let new_str = "# " + question.name + "\n" + question.body;
+    if (question.type === "short_answer_question") {
+        return new_str;
+    }
+
     return "";
 }
 
@@ -97,7 +102,9 @@ export function toMarkdown(question: Question): string {
  * `newName`.
  */
 export function renameQuestion(question: Question, newName: string): Question {
-    return question;
+    const new_ques: Question = { ...question };
+    new_ques.name = newName;
+    return new_ques;
 }
 
 /**
@@ -106,7 +113,15 @@ export function renameQuestion(question: Question, newName: string): Question {
  * published; if it was published, now it should be not published.
  */
 export function publishQuestion(question: Question): Question {
-    return question;
+    const new_ques: Question = { ...question };
+
+    if (question.published === false) {
+        new_ques.published = true;
+    }
+    if (question.published === true) {
+        new_ques.published = false;
+    }
+    return new_ques;
 }
 
 /**
@@ -116,7 +131,11 @@ export function publishQuestion(question: Question): Question {
  * The `published` field should be reset to false.
  */
 export function duplicateQuestion(id: number, oldQuestion: Question): Question {
-    return oldQuestion;
+    const new_ques: Question = { ...oldQuestion };
+    new_ques.id = id;
+    new_ques.name = "Copy of " + oldQuestion.name;
+    new_ques.published = false;
+    return new_ques;
 }
 
 /**
@@ -127,6 +146,7 @@ export function duplicateQuestion(id: number, oldQuestion: Question): Question {
  * Check out the subsection about "Nested Fields" for more information.
  */
 export function addOption(question: Question, newOption: string): Question {
+    
     return question;
 }
 
