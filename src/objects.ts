@@ -89,12 +89,18 @@ export function toShortForm(question: Question): string {
  * Check the unit tests for more examples of what this looks like!
  */
 export function toMarkdown(question: Question): string {
-    let new_str = "# " + question.name + "\n" + question.body;
+    const new_str = `# ${question.name}\n${question.body}\n`;
     if (question.type === "short_answer_question") {
         return new_str;
     }
-
-    return "";
+    let body = "";
+    if (question.type === "multiple_choice_question") {
+        const options = question.options.map(
+            (option: string): string => `- ${option}`
+        );
+        body = options.join("\n") + "\n";
+    }
+    return new_str + body;
 }
 
 /**
@@ -146,8 +152,9 @@ export function duplicateQuestion(id: number, oldQuestion: Question): Question {
  * Check out the subsection about "Nested Fields" for more information.
  */
 export function addOption(question: Question, newOption: string): Question {
-    
-    return question;
+    const newOpt = [...question.options, newOption];
+    const new_ques: Question = { ...question, options: newOpt };
+    return new_ques;
 }
 
 /**
