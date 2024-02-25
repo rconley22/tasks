@@ -1,5 +1,6 @@
 import { Answer } from "./interfaces/answer";
 import { Question, QuestionType } from "./interfaces/question";
+import { makeBlankQuestion } from "./objects";
 
 /**
  * Consumes an array of questions and returns a new array with only the questions
@@ -20,8 +21,8 @@ export function getPublishedQuestions(questions: Question[]): Question[] {
 export function getNonEmptyQuestions(questions: Question[]): Question[] {
     const new_arr = questions.filter(
         (value: Question): boolean =>
-            value.body.trim.length > 0 &&
-            value.expected.trim.length > 0 &&
+            value.body.length > 0 ||
+            value.expected.length > 0 ||
             value.options.length > 0
     );
     return new_arr;
@@ -35,7 +36,8 @@ export function findQuestion(
     questions: Question[],
     id: number
 ): Question | null {
-    return [];
+    const num = questions.find((val) => val.id === id) || null;
+    return num;
 }
 
 /**
@@ -54,7 +56,8 @@ export function removeQuestion(questions: Question[], id: number): Question[] {
  * questions, as an array.
  */
 export function getNames(questions: Question[]): string[] {
-    return [];
+    const new_arr = questions.map((val: Question): string => val.name);
+    return new_arr;
 }
 
 /***
@@ -107,6 +110,9 @@ export function toCSV(questions: Question[]): string {
  * making the `text` an empty string, and using false for both `submitted` and `correct`.
  */
 export function makeAnswers(questions: Question[]): Answer[] {
+    const ans = questions.map((val:Question):Question => {
+        return { ...val, }
+    })
     return [];
 }
 
@@ -115,7 +121,10 @@ export function makeAnswers(questions: Question[]): Answer[] {
  * each question is now published, regardless of its previous published status.
  */
 export function publishAll(questions: Question[]): Question[] {
-    return [];
+    const new_arr = questions.map((val: Question): Question => {
+        return { ...val, published: true };
+    });
+    return new_arr;
 }
 
 /***
@@ -131,13 +140,16 @@ export function sameType(questions: Question[]): boolean {
  * except that a blank question has been added onto the end. Reuse the `makeBlankQuestion`
  * you defined in the `objects.ts` file.
  */
+
 export function addNewQuestion(
     questions: Question[],
     id: number,
     name: string,
     type: QuestionType
 ): Question[] {
-    return [];
+    const ques: Question = makeBlankQuestion(id, name, type);
+    const new_arr = [...questions, ques];
+    return new_arr;
 }
 
 /***
@@ -150,7 +162,11 @@ export function renameQuestionById(
     targetId: number,
     newName: string
 ): Question[] {
-    return [];
+    const new_arr = questions.map(
+        (val: Question): Question =>
+            val.id === targetId ? { ...val, name: newName } : val
+    );
+    return new_arr;
 }
 
 /***
@@ -165,7 +181,19 @@ export function changeQuestionTypeById(
     targetId: number,
     newQuestionType: QuestionType
 ): Question[] {
-    return [];
+    const new_arr = questions.map((val: Question): Question => {
+        if (val.id === targetId) {
+            if (newQuestionType !== "multiple_choice_question") {
+                return { ...val, type: newQuestionType, options: [] };
+            } else {
+                return { ...val, type: newQuestionType };
+            }
+        } else {
+            return val;
+        }
+    });
+
+    return new_arr;
 }
 
 /**
