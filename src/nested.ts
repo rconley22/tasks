@@ -1,6 +1,6 @@
 import { Answer } from "./interfaces/answer";
 import { Question, QuestionType } from "./interfaces/question";
-import { makeBlankQuestion } from "./objects";
+import { duplicateQuestion, makeBlankQuestion } from "./objects";
 
 /**
  * Consumes an array of questions and returns a new array with only the questions
@@ -101,7 +101,14 @@ id,name,options,points,published
  * Check the unit tests for more examples!
  */
 export function toCSV(questions: Question[]): string {
-    return "";
+    let new_str = "id,name,options,points,published\n";
+    new_str += questions
+        .map((val: Question): string => {
+            const optionsCount = val.options.length;
+            return `${val.id},${val.name},${optionsCount},${val.points},${val.published}`;
+        })
+        .join("\n");
+    return new_str;
 }
 
 /**
@@ -110,9 +117,8 @@ export function toCSV(questions: Question[]): string {
  * making the `text` an empty string, and using false for both `submitted` and `correct`.
  */
 export function makeAnswers(questions: Question[]): Answer[] {
-    const ans = questions.map((val:Question):Question => {
-        return { ...val, }
-    })
+
+    
     return [];
 }
 
@@ -132,7 +138,12 @@ export function publishAll(questions: Question[]): Question[] {
  * are the same type. They can be any type, as long as they are all the SAME type.
  */
 export function sameType(questions: Question[]): boolean {
-    return false;
+    if (questions.length === 0){
+        return true;
+    }
+    const typ = questions[0].type;
+
+    return questions.every((question) => question.type === typ);
 }
 
 /***
@@ -226,5 +237,9 @@ export function duplicateQuestionInArray(
     targetId: number,
     newId: number
 ): Question[] {
-    return [];
+    return questions.flatMap((question: Question) =>
+        question.id === targetId
+            ? [question, duplicateQuestion(newId, question)]
+            : [question]
+    );
 }
