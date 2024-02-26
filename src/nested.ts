@@ -117,9 +117,15 @@ export function toCSV(questions: Question[]): string {
  * making the `text` an empty string, and using false for both `submitted` and `correct`.
  */
 export function makeAnswers(questions: Question[]): Answer[] {
-
-    
-    return [];
+    const new_arr: Answer[] = questions.map(
+        (val: Question): Answer => ({
+            questionId: val.id,
+            text: "",
+            submitted: false,
+            correct: false
+        })
+    );
+    return new_arr;
 }
 
 /***
@@ -223,7 +229,23 @@ export function editOption(
     targetOptionIndex: number,
     newOption: string
 ): Question[] {
-    return [];
+    return questions.map((val) => {
+        if (val.id === targetId) {
+            const updatedOptions = [...val.options];
+
+            if (targetOptionIndex === -1) {
+                updatedOptions.push(newOption);
+            } else if (
+                targetOptionIndex >= 0 &&
+                targetOptionIndex < updatedOptions.length
+            ) {
+                updatedOptions[targetOptionIndex] = newOption;
+            }
+            return { ...val, options: updatedOptions };
+        }
+
+        return val;
+    });
 }
 
 /***
