@@ -25,21 +25,23 @@ export function EditMode(): JSX.Element {
                 checked={editMode}
                 onChange={UpdateMode}
             />
-            <Form.Check
-                type="checkbox"
-                id="student status"
-                label="Student"
-                checked={isStudent}
-                onChange={updateStudent}
-                disabled={!editMode}
-            />
             {editMode ? (
-                <Form.Control
-                    type="text"
-                    placeholder="Enter name"
-                    value={name}
-                    onChange={updateName}
-                />
+                <>
+                    <Form.Control
+                        type="text"
+                        placeholder="Enter name"
+                        value={name}
+                        onChange={updateName}
+                    />
+                    <Form.Check
+                        type="checkbox"
+                        id="student status"
+                        label="Student"
+                        checked={isStudent}
+                        onChange={updateStudent}
+                        disabled={!editMode}
+                    />
+                </>
             ) : (
                 <div>
                     {name} {isStudent ? "is a student" : "is not a student"}.
